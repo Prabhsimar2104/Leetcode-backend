@@ -7,6 +7,7 @@ import logger from './config/logger.config';
 import { attachCorrelationIdMiddleware } from './middlewares/correlation.middleware';
 import { startworkers } from './workers/evaluation.worker';
 import { pullAllImages } from './utils/containers/pullImage.util';
+import { runPythonCode } from './utils/containers/pythonRunner.util';
 const app = express();
 
 app.use(express.json());
@@ -35,4 +36,21 @@ app.listen(serverConfig.PORT, async () => {
     logger.info("Workers started successfully");
 
     await pullAllImages();
+
+    await testPyThonCode();
 });
+
+
+
+async function testPyThonCode() {
+    const pythonCode = `
+
+for i in range(10):
+    print(i)
+
+print("Bye")
+    `;
+    // 1. Take the python code and dump in a file and run the python file in the container
+    
+    await runPythonCode(pythonCode);
+}
