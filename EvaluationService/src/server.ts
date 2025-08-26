@@ -8,6 +8,7 @@ import { attachCorrelationIdMiddleware } from './middlewares/correlation.middlew
 import { startworkers } from './workers/evaluation.worker';
 import { pullAllImages } from './utils/containers/pullImage.util';
 import { runCode } from './utils/containers/codeRunner.util';
+import { CPP_IMAGE } from './utils/constants';
 const app = express();
 
 app.use(express.json());
@@ -37,27 +38,53 @@ app.listen(serverConfig.PORT, async () => {
 
     await pullAllImages();
 
-    await testPyThonCode();
+    // await testPyThonCode();
+
+    await testCppCode();
 });
 
 
 
-async function testPyThonCode() {
-    const pythonCode = `
-import time
-i = 0
-while True:
-    i += 1
-    print(i)
-    time.sleep(1)
+// async function testPyThonCode() {
+//     const pythonCode = `
+// import time
+// i = 0
+// while True:
+//     i += 1
+//     print(i)
+//     time.sleep(1)
 
-print("Bye")
-    `;
-    // 1. Take the python code and dump in a file and run the python file in the container
+// print("Bye")
+//     `;
+//     // 1. Take the python code and dump in a file and run the python file in the container
     
+//     await runCode({
+//         code: pythonCode,
+//         language: "python",
+//         timeout: 3000,
+//         imageName: PYTHON_IMAGE
+//     });
+// }
+
+async function testCppCode() {
+    const cppCode = `
+#include<iostream>
+
+int main() {
+    std::cout<<"Hello world"<<std::endl;
+
+    for(int i = 0; i < 10; i++) {
+        std::cout<<i<<std::endl;
+    }
+
+    return 0;
+}
+    
+`
     await runCode({
-        code: pythonCode,
-        language: "python",
-        timeout: 3000
-    });
+        code: cppCode,
+        language: "cpp",
+        timeout: 1000,
+        imageName: CPP_IMAGE
+    })
 }
