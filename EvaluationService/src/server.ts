@@ -7,8 +7,6 @@ import logger from './config/logger.config';
 import { attachCorrelationIdMiddleware } from './middlewares/correlation.middleware';
 import { startworkers } from './workers/evaluation.worker';
 import { pullAllImages } from './utils/containers/pullImage.util';
-import { runCode } from './utils/containers/codeRunner.util';
-import { CPP_IMAGE } from './utils/constants';
 const app = express();
 
 app.use(express.json());
@@ -40,7 +38,7 @@ app.listen(serverConfig.PORT, async () => {
 
     // await testPyThonCode();
 
-    await testCppCode();
+    // await testCppCode();
 });
 
 
@@ -66,28 +64,28 @@ app.listen(serverConfig.PORT, async () => {
 //     });
 // }
 
-async function testCppCode() {
-    const cppCode = `
-#include<iostream>
+// async function testCppCode() {
+//     const cppCode = `
+// #include<iostream>
 
-int main() {
-    // std::cout<<"Hello world"<<std::endl;
-    int n;
-    std::cin>>n;
+// int main() {
+//     // std::cout<<"Hello world"<<std::endl;
+//     int n;
+//     std::cin>>n;
 
-    for(int i = 0; i < n; i++) {
-        std::cout<<i<<std::endl;
-    }
+//     for(int i = 0; i < n; i++) {
+//         std::cout<<i<<std::endl;
+//     }
 
-    return 0;
-}
+//     return 0;
+// }
     
-`
-    await runCode({
-        code: cppCode,
-        language: "cpp",
-        timeout: 1000,
-        imageName: CPP_IMAGE,
-        input: "6"
-    })
-}
+// `
+//     await runCode({
+//         code: cppCode,
+//         language: "cpp",
+//         timeout: 1000,
+//         imageName: CPP_IMAGE,
+//         input: "6"
+//     })
+// }
