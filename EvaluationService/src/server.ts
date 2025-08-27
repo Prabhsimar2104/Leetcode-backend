@@ -71,9 +71,11 @@ async function testCppCode() {
 #include<iostream>
 
 int main() {
-    std::cout<<"Hello world"<<std::endl;
+    // std::cout<<"Hello world"<<std::endl;
+    int n;
+    std::cin>>n;
 
-    for(int i = 0; i < 10; i++) {
+    for(int i = 0; i < n; i++) {
         std::cout<<i<<std::endl;
     }
 
@@ -85,6 +87,7 @@ int main() {
         code: cppCode,
         language: "cpp",
         timeout: 1000,
-        imageName: CPP_IMAGE
+        imageName: CPP_IMAGE,
+        input: "6"
     })
 }
